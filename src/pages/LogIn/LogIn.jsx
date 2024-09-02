@@ -2,6 +2,7 @@ import React from "react";
 import {UserOutlined} from '@ant-design/icons';
 import Product from "../../components/Product/Product";
 import News from "../../components/News/News";
+import {Form, Input, Button, Checkbox} from "antd";
 
 export default function LogIn() {
 
@@ -11,13 +12,28 @@ export default function LogIn() {
                 <h3 className="text-[24px] text-[#107433] font-bold mb-5">Sign In</h3>
                 <div className="flex flex-col md:flex-row gap-[30px] md:gap-5">
                     <div className="md:w-[50%]">
-                        <form action="">
-                            <input className="w-[100%] h-[50px] border p-3 mb-3 rounded-sm" type="text" placeholder="Email..." />
-                            <input className="w-[100%] h-[50px] border p-3 rounded-sm mb-8" type="password" placeholder="Password..." />
-                            <div className="flex justify-between">
-                                <button className="border w-[100%] text-white h-[50px] bg-[#F4991A] rounded-sm">Log In</button>
-                            </div>
-                        </form>
+                    <Form
+                        style={{width: '100%', marginTop: '10px'}}
+                        >
+                            <Form.Item
+                            name="email"
+                            rules={[{ required: true, message: 'Field required' }]}
+                            style={{width: '100%', textAlign: 'left'}}
+                            >
+                                <Input placeholder="Email..." className="w-[100%] h-[50px] border p-3 mb-3 rounded-sm" />
+                            </Form.Item>
+                            <Form.Item
+                            name="password"
+                            rules={[{ required: true, message: 'Field required' }]}
+                            style={{width: '100%', textAlign: 'left'}}
+                            >
+                                <Input placeholder="Password..." className="w-[100%] h-[50px] border p-3 mb-3 rounded-sm" />
+                            </Form.Item>
+                            
+                            <Form.Item>
+                                <Button type="primary" htmlType="submit" className="w-[100%] text-white h-[50px] bg-[#F4991A] rounded-sm">Log In</Button>
+                            </Form.Item>
+                        </Form>
                     </div>
                     <div className="md:w-[50%] text-center">
                         <p className="w-[100%] border-t"><span className="relative top-[-14px] bg-white px-[7px]">New to Farmy?</span></p>
