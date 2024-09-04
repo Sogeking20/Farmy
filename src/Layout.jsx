@@ -1,13 +1,25 @@
-import React from 'react';
-import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer';
+import React, { createContext, useContext, useState } from "react";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
+
+const LangContext = createContext();
+
+export const useLang = () => useContext(LangContext);
 
 const Layout = ({ children }) => {
+  const [lang, setLang] = useState("en");
+
+  const changeLang = (lang) => {
+    setLang(lang);
+  };
+
   return (
     <div>
-      <Header />
-        <main className='md:pt-[153px]'>{children}</main>
-      <Footer />
+      <LangContext.Provider value={{ lang, changeLang }}>
+        <Header />
+        <main className="pt-[103px]">{children}</main>
+        <Footer />
+      </LangContext.Provider>
     </div>
   );
 };

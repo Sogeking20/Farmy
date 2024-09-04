@@ -1,0 +1,88 @@
+.fROKwt {
+  flex-direction: row;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+  margin-top: 3%;
+  padding: 20px;
+  border-radius: 5px;
+  position: relative;
+  background-image: url("https://www.farmy.ch/resources/farmy/images/banerDiscount.png");
+  background-size: cover;
+  background-position: center center;
+}
+
+.hLKGga {
+  width: 70%;
+  margin-bottom: 0px;
+  margin-left: 15%;
+  font-size: 24px;
+  color: black;
+  font-weight: bold;
+  text-align: start;
+}
+
+.ggAXCX {
+  display: inline-block;
+  width: 30%;
+  border: 2px solid black;
+  border-radius: 10px;
+  background-color: transparent;
+  color: black;
+  font-size: 16px;
+  padding: 10px 20px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+
+.minus-button {
+  background-color: transparent;
+  color: rgb(16, 116, 51);
+  border: 1px solid rgb(16, 116, 51);
+  font-size: 22px;
+  padding: 0px;
+  width: 36px;
+  height: 29px;
+  margin: 0px;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  position: relative;
+}
+
+.plus-button {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  font-size: 22px;
+  padding: 0px;
+  width: 36px;
+  height: 29px;
+  margin: 0px;
+  background-color: rgb(16, 116, 51);
+  border: 1px solid rgb(16, 116, 51);
+  color: white;
+  text-shadow: none;
+  position: relative;
+}
+
+@media only screen and (max-width: 640px) {
+  .cart-left-body-bottom,
+  .cart-content {
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .cart-right,
+  .cart-left {
+    width: 100% !important;
+  }
+}

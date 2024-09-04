@@ -1,0 +1,12 @@
+.offer {
+  a {
+    display: flex;
+    gap: 10px;
+  }
+
+  color: #333;
+
+  i {
+    margin-top: 5px;
+  }
+}
