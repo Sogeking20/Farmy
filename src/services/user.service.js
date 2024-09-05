@@ -53,7 +53,8 @@ export const UsersService = {
     window.location.reload();
   },
 
-  addToCart(name) {
+  addToCart(name, description, img, price) {
+    console.log(name, description, img, price);
     const prevUser = JSON.parse(localStorage.getItem('currentUser')) || {};
 
     if (prevUser) {
@@ -61,18 +62,18 @@ export const UsersService = {
         if (!prevUser.cart.includes(name)) {
           localStorage.setItem(
             'currentUser',
-            JSON.stringify({ ...prevUser, cart: [...prevUser?.cart, name] })
+            JSON.stringify({ ...prevUser, cart: [...prevUser?.cart] })
           );
 
           this.updateUser(prevUser.email, {
             ...prevUser,
-            cart: [...prevUser?.cart, name],
+            cart: [...prevUser?.cart],
           });
         }
       } else {
         localStorage.setItem(
           'currentUser',
-          JSON.stringify({ ...prevUser, cart: [name] })
+          JSON.stringify({ ...prevUser, cart: [name, description, img, price] })
         );
 
         this.updateUser(prevUser.email, { ...prevUser, cart: [name] });
@@ -80,7 +81,7 @@ export const UsersService = {
     }
   },
 
-  deleteFromCart(name) {
+  deleteFromCart(name, price, description) {
     const prevUser = JSON.parse(localStorage.getItem('currentUser')) || {};
 
     if (prevUser?.cart?.length) {

@@ -48,7 +48,7 @@ function App() {
             <Route path='/farmy-app' element={<FarmyApp />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/cashier" element={<Cashier />} />
-            <Route path="/offer" element={<Offer />} />
+            <Route path="/our-producers/:id" element={<Offer />} />
           </Routes>
         </Layout>
       </Router>

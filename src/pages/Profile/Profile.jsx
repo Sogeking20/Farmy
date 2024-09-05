@@ -1,7 +1,9 @@
 import { useState } from "react";
 import SettingSection from "../../components/Settings/SettingSection";
+import { useUser } from "../../hooks/useUser";
 
-const Profile = () => {
+const Profile = ({ section }) => {
+  const user = useUser();
   const [activeSection, setActiveSection] = useState("myInfo");
 
   const changeSection = (section) => {

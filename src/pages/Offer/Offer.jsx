@@ -1,11 +1,42 @@
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import FAQItem from "../../components/FaqItem/FAQ";
+import { useLang } from "../../Layout";
+import { useUser } from '../../hooks/useUser';
+import React, { useEffect, useState } from "react";
 
 import "./Offer.css";
 import Product from "../../components/Product/Product";
 
 function Offer() {
+  
+  // const { lang } = useLang();
+  // const generateLang = () => {
+  //   if (lang === "en") {
+  //     return "../../../EN_out.json";
+  //   }
+  //   if (lang === "fr") {
+  //     return "../../../FR_out.json";
+  //   }
+  //   if (lang === "de") {
+  //     return "../../../DE_out.json";
+  //   }
+  // };
+  
+  
+  // useEffect(() => {
+  //   const [data, setData] = useState([]);
+
+  //   fetch(generateLang())  // Путь к вашему JSON файлу
+  //     .then(response => response.json())
+  //     .then(jsonData => {
+  //       setData(jsonData)
+  //       console.log(data[id-1]);
+  //     })
+  //     .catch(error => console.error('Ошибка при загрузке данных:', error));
+  //   }, []);
+    
+    // const product = data[id-1]
   return (
     <div className="px-16">
       <div className="offer flex justify-between gap-4">

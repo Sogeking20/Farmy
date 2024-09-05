@@ -7,3 +7,10 @@
     margin: 0 auto;
     padding: 0 20px;
 }
+
+.bg-img {
+  background-image: url(https://www.farmy.ch/ct/wp-content/uploads/2022/07/EN-LP-Desktop.jpeg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}

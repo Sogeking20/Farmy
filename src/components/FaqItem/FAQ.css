@@ -35,32 +35,61 @@
   }
 }
 
-/* Hide the default checkbox */
+/* Checkbox design */
+
+.custom-checkbox {
+  display: inline-block;
+  position: relative;
+  padding-left: 20px;
+  cursor: pointer;
+  user-select: none;
+}
+
 .custom-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 12px;
+  width: 12px;
+  background-color: white;
+  border: 1px solid #d1d1d1;
+  border-radius: 3px;
+  margin-top: 8px;
+}
+
+.custom-checkbox input:checked ~ .checkmark:after {
+  content: "✖"; /* Unicode for the cross mark */
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #6f6f6f; /* Cross color */
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.custom-checkbox .checkmark:after {
+  content: "";
+  position: absolute;
   display: none;
 }
 
-/* Create a custom checkbox */
-.custom-checkbox .checkmark {
-  position: relative;
-  height: 25px;
-  width: 25px;
-  background-color: #ccc;
-  border-radius: 10%; /* Make it a circle */
-  display: inline-block;
+.custom-checkbox input:checked ~ .checkmark {
+  background-color: white; /* Change background color if needed */
 }
 
-/* When the checkbox is checked, show the cross */
-.custom-checkbox input:checked + .checkmark::before {
-  content: "✖";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-size: 18px;
+.custom-checkbox input:checked ~ .checkmark:after {
+  display: block;
 }
 
-/* Change the background color when the checkbox is checked */
-.custom-checkbox input:checked + .checkmark {
+.skiptranslate {
+  display: none !important;
 }

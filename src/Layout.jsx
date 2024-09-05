@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
     <div>
       <LangContext.Provider value={{ lang, changeLang }}>
         <Header />
-        <main className="pt-[103px]">{children}</main>
+        <main className="">{children}</main>
         <Footer />
       </LangContext.Provider>
     </div>

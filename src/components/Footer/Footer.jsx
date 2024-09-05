@@ -1,5 +1,6 @@
 // components/Footer.js
 import React from 'react';
+import { FacebookOutlined, XOutlined,InstagramOutlined, YoutubeOutlined } from "@ant-design/icons";
 
 const Footer = () => {
   return (
@@ -39,16 +40,16 @@ const Footer = () => {
           </div>
           <div className="flex flex-col gap-5 flex-end items-center md:items-start">
             <div className="flex gap-3">
-              <a href="#" className='w-[36px] h-[36px] bg-white rounded-full'></a>
-              <a href="#" className='w-[36px] h-[36px] bg-white rounded-full'></a>
-              <a href="#" className='w-[36px] h-[36px] bg-white rounded-full'></a>
-              <a href="#" className='w-[36px] h-[36px] bg-white rounded-full'></a>
+              <a href="https://www.facebook.com/farmy.ch" className='w-[36px] h-[36px] bg-white rounded-full flex justify-center items-center'><FacebookOutlined  style={{fontSize: '22px'}}/></a>
+              <a href="https://twitter.com/farmyCH" className='w-[36px] h-[36px] bg-white rounded-full flex justify-center items-center'><XOutlined style={{fontSize: '22px'}}/></a>
+              <a href="https://www.instagram.com/farmy_ch/" className='w-[36px] h-[36px] bg-white rounded-full flex justify-center items-center'><InstagramOutlined style={{fontSize: '22px'}}/></a>
+              <a href="https://www.youtube.com/channel/UCv6zohUoy1j3XxK2u1MtFWQ" className='w-[36px] h-[36px] bg-white rounded-full flex justify-center items-center'><YoutubeOutlined style={{fontSize: '22px'}}/></a>
             </div>
-            <div className="flex gap-3">
-              <a href="#" className='w-[55px] h-[55px] bg-white rounded-full'></a>
-              <a href="#" className='w-[55px] h-[55px] bg-white rounded-full'></a>
-              <a href="#" className='w-[55px] h-[55px] bg-white rounded-full'></a>
-              <a href="#" className='w-[55px] h-[55px] bg-white rounded-full'></a>
+            <div className="flex gap-3 items-center">
+              <a href="https://www.trustedshops.ch/bewertung/info_XC41A6F67DA01EF4108CC6FE6DBCE521C.html" className='w-[55px] h-[55px] rounded-full'><img src="https://www.farmy.ch/resources/farmy/images/components/shared/SiteFooter/trusted-shops-badge.webp" alt="" /></a>
+              <a href="https://digital-commerce-award.ch/uebersicht-sieger/" className='w-[55px] h-[55px] rounded-full'><img src="https://www.farmy.ch/resources/farmy/images/components/shared/SiteFooter/ecommerce-award.webp" alt="" /></a>
+              <a href="https://www.swiss-online-garantie.ch/" className='w-[55px] h-[55px] rounded-full'><img src="https://www.farmy.ch/resources/farmy/images/components/shared/SiteFooter/swiss_ecommerce_association.webp" alt="" /></a>
+              <a href="https://www.farmy.ch/ct/farmy-ist-b-corp-zertifiziert" className='w-[45px] h-[75px] rounded-full'><img src="https://www.farmy.ch/resources/farmy/images/components/shared/SiteFooter/bcorp-certificate.webp" alt="" /></a>
             </div>
           </div>
         </div>

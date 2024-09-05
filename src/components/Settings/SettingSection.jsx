@@ -5,8 +5,11 @@ import {
   bonusEggs,
   dietaryPreferences,
 } from "../../utils/constants";
+import { useUser } from "../../hooks/useUser";
 
 const SettingSection = ({ active }) => {
+  const user = useUser();
+  
   if (active === "myInfo") {
     return (
       <div className="w-[60%] pb-20">
@@ -37,7 +40,7 @@ const SettingSection = ({ active }) => {
             className="outline-none bg-[#eeeeee] py-1 px-4 cursor-not-allowed border-b border-[#BFBFBF]"
             disabled
             placeholder="Email"
-            value="mkim69549@gmail.com"
+            value={user?.email}
           />
           <input
             type="text"

@@ -103,7 +103,7 @@ const Header = () => {
     {/* DO NOT REMOVE IT IT IS FOR TRANSLATION */}
     <div id="google_translate_element"></div>
     {/*  */}
-      <header className='hidden md:block w-[100vw] border-b border-[#27aa55] fixed z-[1000] top-0 left-0'>
+      <header className='hidden md:block w-[100vw] border-b border-[#27aa55] sticky top-0 z-[1000] left-0'>
         <div className='bg-white font-[signika]'>
           <div className='container flex justify-between items-center h-[100px] '>
             <div className='flex gap-[50px] items-center'>
@@ -205,9 +205,10 @@ const Header = () => {
                 </div>
               )}
               <div className='flex gap-3'>
+                
               <a href="/cart">
                 <button className="w-[140px] text-[#959595] flex items-center justify-center gap-2 border">
-                    <img width={19} height={19} src={cartImg} alt="" /> (0)CHF 0
+                    <img width={19} height={19} src={cartImg} alt="" /> ({user.cart.length})CHF 0
                 </button>
               </a>
               </div>
@@ -217,13 +218,14 @@ const Header = () => {
         <div className='bg-[#107433] py-2'>
         <div className="max-w-[1240px] mx-[auto] flex justify-between gap-3 text-[12px] text-[#FFFFFF] text-center items-center">
             {typeOfProducts.map((product) => (
-              <p
+              <a
                 key={product}
+                // href={`/market/${() => setSearchParams({ search: product }}`}
                 onClick={() => setSearchParams({ search: product })}
                 className="text-[12px] cursor-pointer text-white font-bold hover:text-[#F4991A]"
               >
                 {product}
-              </p>
+              </a>
             ))}
           </div>
         </div>

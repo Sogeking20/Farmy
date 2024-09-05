@@ -5,7 +5,7 @@ import { filterOptions, filtersAddition, filtersAnimalTypes, filtersCountries, f
 import { useSearchParams } from "react-router-dom";
 import { Drawer } from "../../components/Checkbox/Checkbox";
 
-const PRODUCTS_PER_PAGE = 30;
+const PRODUCTS_PER_PAGE = 40;
 
 const Market = () => {
   const [data, setData] = useState([]);
@@ -95,6 +95,7 @@ const Market = () => {
     <div className="flex justify-center gap-5">
       <div className="filters pt-4">
         {typeOfProducts.map((type, index) => {
+          // index === 0 && console.log(ty)
           return (
             <li
               onClick={() => setSearchParams({ search: type })}
@@ -138,7 +139,7 @@ const Market = () => {
         <Drawer text="Producer" list={filtersProducers} />
       </div>
 
-      <div className=" grid grid-cols-3 gap-[20px_15px]">
+      <div className=" grid grid-cols-3  gap-[20px_15px]">
         {searchParams.get("search") && (
           <p className=" col-span-3 text-[#333333] text-2xl mt-4">
             {searchParams.get("search")} <span className="text-xs">{displayedProducts.length} PRODUCTS</span>
@@ -151,13 +152,14 @@ const Market = () => {
             );
 
             return (
-              <div ref={index === displayedProducts.length - 7 ? lastCardRef : null}>
+              <div className="h-[335px]" ref={index === displayedProducts.length - 7 ? lastCardRef : null}>
                 <Product
                   img={product.images.lg}
                   name={product.name}
                   priceAfrer={product.price}
                   description={product.supplier.name}
                   supplier={packaging?.value}
+                  id={product?.id}
                 />
               </div>
             );

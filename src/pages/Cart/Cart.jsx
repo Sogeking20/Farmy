@@ -2,23 +2,64 @@ import { useUser } from '../../hooks/useUser';
 import { UsersService } from '../../services/user.service';
 
 // export function Cart() {
-//   const user = useUser();
+  
 
 //   return (
 //     <>
 //       {user?.cart?.length
 //         ? user.cart.map(itemName => {
 //             return (
-//               <div key={itemName}>
-//                 {itemName}
-//                 <button
-//                   className='ms-4 text-[16px] font-bold hover:text-[#F4991A]'
-//                   onClick={() => UsersService.deleteFromCart(itemName)}
-//                 >
-//                   {' '}
-//                   Удалить из корзины{' '}
-//                 </button>
+//               <div className="cart-left-body-bottom flex justify-between items-center ">
+//               <div>
+//                 <h3 className="text-[18px] text-[#333]">Geschenke & Sets</h3>
+//                 <div className="flex gap-6 mt-4">
+//                   <img
+//                     src="https://d1q864mr06oufu.cloudfront.net/farmy-s3/public/spree/products/138116/large/Oatsome_Probier-Set__4x50g-farmy-ch-01.JPG?1716284690"
+//                     alt="image"
+//                     width={75}
+//                     height={75}
+//                   />
+//                   <p className="text-[#333] text-[17px]">
+//                     Oatsome Probier-Set, 4x50g
+//                   </p>
+//                 </div>
+//                 <div className="flex mt-8 gap-4">
+//                   <img
+//                     src="https://www.farmy.ch/resources/farmy/images/components/newbin.svg"
+//                     className="margin-right-10 cursor-pointer"
+//                     alt="basket"
+//                   />
+//                   <p className="text-[#999] underline">Warenkorb löschen</p>
+//                 </div>
 //               </div>
+              
+//               <div className="flex gap-20">
+//                 <div className="">
+//                   <div className="flex justify-between gap-4 pb-2 border-b-2 border-[#107433]">
+//                     <button
+//                       className="minus-button rounded"
+//                       onClick={handleDecrease}
+//                     >
+//                       -
+//                     </button>
+//                     <button
+//                       className="plus-button rounded"
+//                       onClick={handleIncrease}
+//                     >
+//                       +
+//                     </button>
+//                   </div>
+//                   <p className="text-center text-[#107433]">9 Dosen</p>
+//                 </div>
+//                 <div>
+//                   <sup>CHF</sup> {Math.floor(offerPrice)}.
+//                   <sup>
+//                     {changePrice.toFixed(2).toString()[2] +
+//                       changePrice.toFixed(2).toString()[3]}
+//                   </sup>
+//                 </div>
+//               </div>
+//             </div>
 //             );
 //           })
 //         : 'Нет продуктов в корзине'}
@@ -34,6 +75,7 @@ const Cart = () => {
   const [realQuantity, setRealQuantity] = useState(10.8);
   const [offerPrice, setOfferPrice] = useState(offerQuantity);
   const [realPrice, setRealPrice] = useState(realQuantity);
+  const user = useUser();
 
   let changePrice = offerPrice % 1;
 
@@ -46,6 +88,8 @@ const Cart = () => {
     setOfferPrice(offerPrice - offerQuantity);
     setRealPrice(realPrice - realQuantity);
   };
+
+  // console.log(user.cart);
 
   return (
     <div className="container">
@@ -81,75 +125,62 @@ const Cart = () => {
                   </h3>
                 </div>
               </div>
+             {user?.cart?.length
+        ? user.cart.map((itemName, itemDescription, itemImg, itemPrice) => {
+            console.log(user.cart);
+            return (
               <div className="cart-left-body-bottom flex justify-between items-center ">
-                <div>
-                  <h3 className="text-[18px] text-[#333]">Geschenke & Sets</h3>
-                  <div className="flex gap-6 mt-4">
-                    <img
-                      src="https://d1q864mr06oufu.cloudfront.net/farmy-s3/public/spree/products/138116/large/Oatsome_Probier-Set__4x50g-farmy-ch-01.JPG?1716284690"
-                      alt="image"
-                      width={75}
-                      height={75}
-                    />
-                    <p className="text-[#333] text-[17px]">
-                      Oatsome Probier-Set, 4x50g
-                    </p>
-                  </div>
-                  {/* <div>
-                    <input type="checkbox" id="cart-checkbox" />
-                    <label htmlFor="cart-checkbox">
-                      Ich möchte keine Ersatzprodukte
-                    </label>
-                    <div className="btn-info cursor-pointer flex align-items-center">
-                      <svg
-                        stroke="currentColor"
-                        fill="currentColor"
-                        strokeWidth="0"
-                        viewBox="0 0 512 512"
-                        height="1em"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"></path>
-                      </svg>
-                    </div>
-                  </div> */}
-                  <div className="flex mt-8 gap-4">
-                    <img
-                      src="https://www.farmy.ch/resources/farmy/images/components/newbin.svg"
-                      className="margin-right-10 cursor-pointer"
-                      alt="basket"
-                    />
-                    <p className="text-[#999] underline">Warenkorb löschen</p>
-                  </div>
+              <div>
+                <h3 className="text-[18px] text-[#333]">{itemName}</h3>
+                <div className="flex gap-6 mt-4">
+                  <img
+                    src={itemImg[6]}
+                    alt="image"
+                    width={75}
+                    height={75}
+                  />
+                  <p className="text-[#333] text-[17px]">
+                    {itemDescription}
+                  </p>
                 </div>
-                <div className="flex gap-20">
-                  <div className="">
-                    <div className="flex justify-between gap-4 pb-2 border-b-2 border-[#107433]">
-                      <button
-                        className="minus-button rounded"
-                        onClick={handleDecrease}
-                      >
-                        -
-                      </button>
-                      <button
-                        className="plus-button rounded"
-                        onClick={handleIncrease}
-                      >
-                        +
-                      </button>
-                    </div>
-                    <p className="text-center text-[#107433]">9 Dosen</p>
-                  </div>
-                  <div>
-                    <sup>CHF</sup> {Math.floor(offerPrice)}.
-                    <sup>
-                      {changePrice.toFixed(2).toString()[2] +
-                        changePrice.toFixed(2).toString()[3]}
-                    </sup>
-                  </div>
+                <div className="flex mt-8 gap-4">
+                  <img
+                    src="https://www.farmy.ch/resources/farmy/images/components/newbin.svg"
+                    className="margin-right-10 cursor-pointer"
+                    alt="basket"
+                  />
+                  <p className="text-[#999] underline">Warenkorb löschen</p>
                 </div>
               </div>
+              
+              <div className="flex gap-20">
+                <div className="">
+                  <div className="flex justify-between gap-4 pb-2 border-b-2 border-[#107433]">
+                    <button
+                      className="minus-button rounded"
+                      onClick={handleDecrease}
+                    >
+                      -
+                    </button>
+                    <button
+                      className="plus-button rounded"
+                      onClick={handleIncrease}
+                    >
+                      +
+                    </button>
+                  </div>
+                  <p className="text-center text-[#107433]">9 Dosen</p>
+                </div>
+                <div className='text-center'>
+                  <sup>CHF</sup> {itemPrice}.
+                  <sup>
+                  </sup>
+                </div>
+              </div>
+            </div>
+            );
+          })
+        : 'Нет продуктов в корзине'}        
             </div>
           </div>
           <div className="cart-right w-[30%]">
