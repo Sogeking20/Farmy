@@ -1,8 +1,11 @@
 // components/Footer.js
-import React from 'react';
+import React, { useState } from 'react';
 import { FacebookOutlined, XOutlined,InstagramOutlined, YoutubeOutlined } from "@ant-design/icons";
+import PostcodeModal from '../PostcodeModal/PostcodeModal';
 
 const Footer = () => {
+  const [activeModal, setActiveModal] = useState(false);
+
   return (
     <footer className='w-[100vw] bg-[#107433] pt-5 text-[14px] px-5'>
       <div className="container flex flex-col text-center md:text-start">
@@ -31,11 +34,15 @@ const Footer = () => {
             <div className="flex flex-col md:w-[30%] gap-2 whitespace-nowrap mx-auto md:mx-0 md:whitespace-normal">
               <a href="https://join.com/companies/farmy" className='text-white hover:text-[#F4991A]'>Careers</a>
               <a href="/terms-and-conditions" className='text-white hover:text-[#F4991A]'>Terms & conditions</a>
-              <a href="#" className='text-white hover:text-[#F4991A]'>Data protection page</a>
+              <a href="/profile-settings" className='text-white hover:text-[#F4991A]'>Data protection page</a>
               <a href="/contact" className='text-white hover:text-[#F4991A]'>Contact</a>
-              <a href="#" className='text-white hover:text-[#F4991A]'>Farmy Pass</a>
-              <a href="#" className='text-white hover:text-[#F4991A]'>Change delivery address</a>
-              <a href="#" className='text-white hover:text-[#F4991A]'>Delivery information</a>
+              <a href="/farmy-pass" className='text-white hover:text-[#F4991A]'>Farmy Pass</a>
+              <p onClick={() => setActiveModal(true)} className='text-white hover:text-[#F4991A]'>Change delivery address</p>
+              <a href="/cost-delivery" className='text-white hover:text-[#F4991A]'>Delivery information</a>
+              <PostcodeModal
+                isModalOpen={activeModal === true}
+                onClose={() => setActiveModal(false)}
+              />
             </div>
           </div>
           <div className="flex flex-col gap-5 flex-end items-center md:items-start">
@@ -55,7 +62,7 @@ const Footer = () => {
         </div>
         <div className="hidden w-[100%] md:flex justify-between gap-[50px]">
           <div className="bg-white w-[140px] h-[172px] flex flex-col gap-3 items-center py-[10px] px-[15px] rounded-t-xl">
-            <a href="#">
+            <a href="/">
               <img className='w-[100px]' src="https://d23qaq2ahooeph.cloudfront.net/assets/farmy_main_logo_2021-a4bb04c0a7b06ab668a55ef622c39f24d2823a490ffcc37a18ed1eced70df81c.svg" alt="" />
               <p className='text-[10px] text-[#8F877F]'>© 2024 Farmy.ch</p>
             </a>

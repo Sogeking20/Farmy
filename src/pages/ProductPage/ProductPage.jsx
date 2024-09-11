@@ -1,9 +1,11 @@
 import { Divider } from 'antd';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useLang } from "../../Layout";
 import { useParams } from "react-router-dom";
 import { useUser } from '../../hooks/useUser';
 import { UsersService } from '../../services/user.service';
+import { CartContext } from '../../CartContext';
+
 
 export default function ProductPage() {
   const [activeText, setActiveText] = useState(0);
@@ -12,25 +14,18 @@ export default function ProductPage() {
   const [data, setData] = useState([]);
   const { id } = useParams();
   const user = useUser();
-
-  function onClick(id, name, img, description, priceAfrer) {
-    if (!user) {
-      setActiveModal(true);
-    } else {
-      UsersService.addToCart();
-    }
-  }
+  const { addToCart } = useContext(CartContext);
 
   const { lang } = useLang();
   const generateLang = () => {
     if (lang === "en") {
-      return "../../../EN_out.json";
+      return "/EN_out.json";
     }
     if (lang === "fr") {
-      return "../../../FR_out.json";
+      return "/FR_out.json";
     }
     if (lang === "de") {
-      return "../../../DE_out.json";
+      return "/DE_out.json";
     }
   };
   
@@ -46,6 +41,20 @@ export default function ProductPage() {
     }, []);
     
     const product = data[id-1]
+
+    
+    function onClick() {
+      if (!user) {
+      const newItem = { name: product.name, description: product.description, img: product.images[1], price: product.price, id: product.id };
+      
+      addToCart(newItem);
+    } else {
+      console.log(product)
+      console.log(product.name, product.description)
+      UsersService.addToCart(product.name, product.description, product.images[1], product.price, product.id);
+    }
+  }
+
 
     console.log(product)
 

@@ -18,13 +18,13 @@ export default function OurProducers() {
     const { lang } = useLang();
     const generateLang = () => {
       if (lang === "en") {
-        return "../../../EN_prod_out.json";
+        return "/EN_prod_out.json";
       }
       if (lang === "fr") {
-        return "../../../FR_prod_out.json";
+        return "/FR_prod_out.json";
       }
       if (lang === "de") {
-        return "../../../DE_prod_out.json";
+        return "/DE_prod_out.json";
       }
     };
 
@@ -121,7 +121,7 @@ export default function OurProducers() {
           displayedProducts?.map((product, index) => {
 
             return (
-              <Link to={`/${product.products[0].sup_url}`} ref={index === displayedProducts.length - 7 ? lastCardRef : null}>
+              <Link key={index} to={`/${product.products[0].sup_url}`} ref={index === displayedProducts.length - 7 ? lastCardRef : null}>
                 <ProducerCard
                   name={product.products[0].supplier}
                   url={product.products[0].sup_url}

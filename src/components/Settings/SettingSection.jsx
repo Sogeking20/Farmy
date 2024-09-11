@@ -12,7 +12,7 @@ const SettingSection = ({ active }) => {
   
   if (active === "myInfo") {
     return (
-      <div className="w-[60%] pb-20">
+      <div className="md:w-[60%] mx-[10px] md:mx-[0] pb-20">
         <h1 className="text-[#107433] text-center text-2xl font-semibold mb-6">
           My Information
         </h1>
@@ -115,7 +115,7 @@ const SettingSection = ({ active }) => {
   }
   if (active === "familyPeople") {
     return (
-      <div className="w-[60%]">
+      <div className="md:w-[60%] mx-[10px] md:mx-[0] pb-20">
         <img
           src="https://www.farmy.ch/resources/farmy/images/farmy_family/registration/FFamily-registration-header-desktop.jpg"
           alt=""
@@ -129,9 +129,9 @@ const SettingSection = ({ active }) => {
           valid.
         </p>
         <div className="flex gap-2 pt-6">
-          <label class="inline-flex items-center cursor-pointer">
-            <input type="checkbox" value="" class="sr-only peer" />
-            <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300  rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[green]"></div>
+          <label className="inline-flex items-center cursor-pointer">
+            <input type="checkbox" value="" className="sr-only peer" />
+            <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300  rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[green]"></div>
           </label>
           <p className="">Register your kids</p>
         </div>
@@ -141,7 +141,7 @@ const SettingSection = ({ active }) => {
 
   if (active === "referral") {
     return (
-      <div className="w-[60%]">
+      <div className="md:w-[60%] mx-[10px] md:mx-[0] pb-20">
         <img
           src="https://www.farmy.ch/referrals/2022/friend_referrals_desktop_en.png"
           alt=""
@@ -156,7 +156,7 @@ const SettingSection = ({ active }) => {
 
   if (active === "password") {
     return (
-      <div className="w-[60%]">
+      <div className="md:w-[60%] mx-[10px] md:mx-[0] pb-20">
         <h1 className="text-[#107433] text-2xl font-semibold mt-6">Password</h1>
 
         <form className="pt-5">
@@ -188,7 +188,7 @@ const SettingSection = ({ active }) => {
 
   if (active === "accountBalance") {
     return (
-      <div className="w-[60%]">
+      <div className="md:w-[60%] mx-[10px] md:mx-[0] pb-20">
         <h1 className="text-[#107433] text-2xl font-semibold mt-6">
           Account balance
         </h1>
@@ -240,26 +240,26 @@ const SettingSection = ({ active }) => {
 
   if (active === "dietaryPref") {
     return (
-      <div className="w-[60%]">
+      <div className="md:w-[60%] mx-[10px] md:mx-[0] pb-20">
         <h1 className="text-[#107433] text-2xl font-semibold mt-6">
           Dietary preferences
         </h1>
 
         <div className="grid grid-cols-6 pt-5 gap-3">
           {dietaryPreferences.map((pref, index) => (
-            <p>
+            <p key={index}>
               <input
                 type="checkbox"
                 id={pref.name}
                 value=""
-                class="hidden peer"
+                className="hidden peer"
                 defaultChecked
               />
               <label
                 for={pref.name}
-                class="inline-flex min-h-[170px] items-center justify-center w-full py-5 bg-white border-2 border-[#ccc] rounded-lg cursor-pointer text-[#585858] peer-checked:text-[#F4991A] peer-checked:border-[#F4991A] hover:text-gray-600 hover:bg-gray-50"
+                className="inline-flex min-h-[170px] items-center justify-center w-full py-5 bg-white border-2 border-[#ccc] rounded-lg cursor-pointer text-[#585858] peer-checked:text-[#F4991A] peer-checked:border-[#F4991A] hover:text-gray-600 hover:bg-gray-50"
               >
-                <div class="flex flex-col items-center">
+                <div className="flex flex-col items-center">
                   <img
                     width={60}
                     height={60}
@@ -277,18 +277,18 @@ const SettingSection = ({ active }) => {
 
         <div className="grid grid-cols-6 gap-3 pb-16">
           {allergens.map((pref, index) => (
-            <p>
+            <p key={index}>
               <input
                 type="checkbox"
                 id={pref.name}
                 value=""
-                class="hidden peer"
+                className="hidden peer"
               />
               <label
                 for={pref.name}
-                class="inline-flex min-h-[170px] items-center justify-center w-full py-5 bg-white border-2 border-[#ccc] rounded-lg cursor-pointer text-[#585858] peer-checked:text-[#F4991A] peer-checked:border-[#F4991A] hover:text-gray-600 hover:bg-gray-50"
+                className="inline-flex min-h-[170px] items-center justify-center w-full py-5 bg-white border-2 border-[#ccc] rounded-lg cursor-pointer text-[#585858] peer-checked:text-[#F4991A] peer-checked:border-[#F4991A] hover:text-gray-600 hover:bg-gray-50"
               >
-                <div class="flex flex-col items-center">
+                <div className="flex flex-col items-center">
                   <img
                     width={60}
                     height={60}
@@ -307,7 +307,7 @@ const SettingSection = ({ active }) => {
 
   if (active === "location") {
     return (
-      <div className="w-[60%]">
+      <div className="md:w-[60%] mx-[10px] md:mx-[0] pb-20">
         <h1 className="text-[#107433] text-2xl font-semibold mt-6">
           My Location
         </h1>
@@ -328,7 +328,7 @@ const SettingSection = ({ active }) => {
 
   if (active === "bonusEggs") {
     return (
-      <div className="w-[60%] bonus-eggs-card p-[19px]">
+      <div className="md:w-[60%] mx-[10px] md:mx-[0] pb-20 bonus-eggs-card p-[19px]">
         <h1 className="text-[#107433] text-2xl font-semibold mt-4">
           <b>Bonus Eggs</b>
         </h1>
@@ -389,7 +389,7 @@ const SettingSection = ({ active }) => {
         </div>
 
         {bonusEggs.map((egg, index) => (
-          <div className={`flex gap-8 p-4 md:p-7 ${index ? "border-image" : ""}  `}>
+          <div key={index} className={`flex gap-8 p-4 md:p-7 ${index ? "border-image" : ""}  `}>
             <div className=" max-w-80 max-h-80">
               <img className="h-full rounded-xl" src={egg.url} alt="image" />
               {index === 0 && (
@@ -414,9 +414,9 @@ const SettingSection = ({ active }) => {
               </p>
               <p className="mb-5 text-sm">{egg.description}</p>
 
-              <div class="w-full bg-[#ddd] rounded-3xl h-6">
+              <div className="w-full bg-[#ddd] rounded-3xl h-6">
                 <div
-                  class="bg-[#469343] h-full rounded-full"
+                  className="bg-[#469343] h-full rounded-full"
                   style={{ width: `${Math.floor(+egg.percent.slice(0, -1))}%` }}
                 ></div>
               </div>

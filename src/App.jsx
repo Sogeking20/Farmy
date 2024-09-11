@@ -1,4 +1,4 @@
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes, useParams } from 'react-router-dom';
 import Layout from './Layout';
 import AboutUs from './pages/AboutUs/AboutUs';
 import Cart from './pages/Cart/Cart';
@@ -18,38 +18,57 @@ import Profile from './pages/Profile/Profile';
 import FarmyApp from './pages/FarmyApp.tsx/FarmyApp';
 import Cashier from "./pages/Cashier/Cashier";
 import Offer from "./pages/Offer/Offer";
+import CostDelivery from './pages/CostDelivery/CostDelivery';
+import FarmyPass from './pages/FarmyPass/FarmyPass';
+import ProductKnowledgePage from './pages/ProductKnowledgePage/ProductKnowledgePage';
+import { CartProvider } from './CartContext';
 
 function App() {
+  const { letter } = useParams(); // Извлекаем параметр из URL
+
   return (
     <>
       <Router>
         <Layout>
-          <Routes>
-            <Route path='/' element={<Main />} />
-            <Route
-              path='/fresh-food-delivered-to-your-door'
-              element={<Convince />}
-            />
-            <Route path='/login' element={<LogIn />} />
-            <Route path='/signup' element={<SignUp />} />
-            <Route path='/about-us' element={<AboutUs />} />
-            <Route path='/our-producers' element={<OurProducers />} />
-            <Route path='/product-knowledge' element={<ProductKnowledge />} />
-            <Route path='/imprint' element={<Imprint />} />
-            <Route
-              path='/terms-and-conditions'
-              element={<TermsAndConditions />}
-            />
-            <Route path='/contact' element={<Contacts />} />
-            <Route path='/question' element={<Question />} />
-            <Route path='/product/:id' element={<ProductPage />} />
-            <Route path='/farm-shop' element={<Market />} />
-            <Route path='/profile-settings' element={<Profile />} />
-            <Route path='/farmy-app' element={<FarmyApp />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/cashier" element={<Cashier />} />
-            <Route path="/our-producers/:id" element={<Offer />} />
-          </Routes>
+          {/* <CartProvider> */}
+            <Routes>
+              <Route path='/' element={<Main />} />
+              <Route
+                path='/fresh-food-delivered-to-your-door'
+                element={<Convince />}
+              />
+              <Route path='/login' element={<LogIn />} />
+              <Route path='/signup' element={<SignUp />} />
+              <Route path='/about-us' element={<AboutUs />} />
+              <Route path='/our-producers' element={<OurProducers />} />
+              <Route path='/product-knowledge' element={<ProductKnowledge />} />
+              <Route path='/imprint' element={<Imprint />} />
+              <Route
+                path='/terms-and-conditions'
+                element={<TermsAndConditions />}
+              />
+              <Route path='/contact' element={<Contacts />} />
+              <Route path='/question' element={<Question />} />
+              <Route path='/product/:id' element={<ProductPage />} />
+              <Route path='/farm-shop' element={<Market />} />
+              <Route path='/farmy-app' element={<FarmyApp />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/cashier" element={<Cashier />} />
+              <Route path="/our-producers/:id" element={<Offer />} />
+              <Route path="/cost-delivery" element={<CostDelivery />} />
+              <Route path='/profile-settings' element={<Profile settings='myInfo' />} />
+              <Route path='/profile-settings-family' element={<Profile settings={'familyPeople'} />} />
+              <Route path='/profile-settings-referral' element={<Profile settings={'referral'} />} />
+              <Route path='/profile-settings-password' element={<Profile settings={'password'} />} />
+              <Route path='/profile-settings-account-balance' element={<Profile settings={'accountBalance'} />} />
+              <Route path='/profile-settings-dietary-pref' element={<Profile settings={'dietaryPref'} />} />
+              <Route path='/profile-settings-location' element={<Profile settings={'location'} />} />
+              <Route path='/profile-settings-bonus-eggs' element={<Profile settings={'bonusEggs'} />} />
+              <Route path='/farmy-pass' element={<FarmyPass />} />
+              <Route path='/product-knowledge/:letter' element={<ProductKnowledgePage />} />
+            </Routes>
+            
+          {/* </CartProvider> */}
         </Layout>
       </Router>
     </>

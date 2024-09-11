@@ -1,10 +1,11 @@
-import { HeartOutlined, PlusOutlined } from '@ant-design/icons';
+import { HeartOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useUser } from '../../hooks/useUser';
 import { UsersService } from '../../services/user.service';
 import PostcodeModal from '../PostcodeModal/PostcodeModal';
 import { Link } from 'react-router-dom';
+import { CartContext } from '../../CartContext';
 
 export default function Product({
   img,
@@ -16,23 +17,31 @@ export default function Product({
 }) {
   const user = useUser();
 
+  const { cart } = useContext(CartContext);
+
 
   const arr = ['Seasonal', '', '-20%']
 
   const rand = Math.floor(Math.random() * arr.length);
   const offerPrice = arr[rand];
+  const { addToCart } = useContext(CartContext);
 
 
   const [activeModal, setActiveModal] = useState(false);
 
   function onClick() {
     if (!user) {
-      setActiveModal(true);
+      const newItem = { name: name, description: description, img: img, price: priceAfrer, id: id };
+      addToCart(newItem);
+      // setActiveModal(true);
     } else {
+      // console.log(name, description );
       UsersService.addToCart(name, description, img, priceAfrer, id);
-      console.log(img);
+      // console.log(img);
     }
   }
+
+  const prevUser = JSON.parse(localStorage.getItem('currentUser')) || {};
 
   return (
     <div className='min-w-[160px] max-w-[270px] h-full border'>
@@ -46,7 +55,29 @@ export default function Product({
               <Link to={`/product/${id}`} className='underline text-[16px]'>
                 View product
               </Link>
-              <Button
+              {user?.cart ? (!user.cart.includes(name) && !cart?.includes(id) ? (
+                <Button
+                onClick={onClick}
+                icon={<PlusOutlined />}
+                style={{
+                  width: '80%',
+                  backgroundColor: '#F4991A',
+                  borderColor: '#F4991A',
+                  fontSize: '19px',
+                  opacity: '1',
+                  color: 'white',
+                  fontWeight: 'bold',
+                }}
+              >
+                Add to cart
+              </Button>) : (
+                <div className="w-[100%] flex gap-3 justify-center text-black">
+                  <button className='w-[110px] bg-white h-[45px] border border-[#999999]'><MinusOutlined /></button>
+                  <button className='w-[110px] bg-[#F4991A] h-[45px] border border-[#999999]'><PlusOutlined /></button>
+                </div>
+              )) : (
+                
+                <Button
                 onClick={onClick}
                 icon={<PlusOutlined />}
                 s
@@ -62,6 +93,8 @@ export default function Product({
               >
                 Add to cart
               </Button>
+              )
+            }
             </div>
           </div>
         </div>

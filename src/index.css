@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  font-family: "Signika", sans-serif;
+}
+
 .container {
-    max-width: 1240px;
+    max-width: 1140px;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -14,3 +18,4 @@
   background-position: center;
   background-repeat: no-repeat;
 }
+

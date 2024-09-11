@@ -1,13 +1,18 @@
 import { useUser } from '../../hooks/useUser';
 import { UsersService } from '../../services/user.service';
-import React, { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { useLang } from "../../Layout";
 import { typeOfProducts } from "../../utils/constants";
 import cartImg from "../../../cart-inverted.png";
 import mobileAppSvg from "../../../farmy-mobile-app-icon.svg";
 import { Dropdown } from 'antd';
-import { MenuOutlined } from '@ant-design/icons';
+import { MenuOutlined, SearchOutlined } from '@ant-design/icons';
+import PostcodeModal from '../PostcodeModal/PostcodeModal';
+import BurgerMenu from '../BurgerMenu/BurgerMenu';
+import SeachWindow from '../SeachWindow/SeachWindow';
+import { CartContext } from '../../CartContext';
+
 
 const Header = () => {
   const items = [
@@ -17,37 +22,49 @@ const Header = () => {
         
     },
     {
-      label: <a onClick={() => setOpenDrawer(true)}>My account</a>,
+      label: <a href='/profile-settings'>My account</a>,
       key: '1',
       
     },
     {
-      label: <a onClick={() => setOpenDrawer(true)}>My orders</a>,
+      label: <a href='/farmy-pass'>Farmy Pass</a>,
       key: '2',
       
     },
     {
-      label: <a onClick={() => setOpenDrawer(true)}>Farmy Pass</a>,
-      key: '3',
-      
+    label: <a href='/profile-settings-account-balance'>Account balance</a>,
+    key: '3',
+    
     },
     {
-    label: <a onClick={() => setOpenDrawer(true)}>Account balance</a>,
+    label: <a href='/profile-settings-bonus-eggs'>Bonus Eggs</a>,
     key: '4',
     
     },
     {
-    label: <a onClick={() => setOpenDrawer(true)}>Bonus Eggs</a>,
-    key: '5',
-    
+      label: <a onClick={onClick}>Log Out</a>,
+      key: '5',
+      
     },
   ]
+
+  // const { cart } = useContext(CartContext);
 
   const { changeLang, lang } = useLang();
 
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [isTranslateReady, setIsTranslateReady] = useState(false);
+
+  const [activeModal, setActiveModal] = useState(false);
+
+  const [activeBurger, setActiveBurger] = useState(false);
+
+  const navigate = useNavigate();
+
+  const [search, setSearch] = useState(false);
+
+  const { cart } = useContext(CartContext);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -85,6 +102,28 @@ const Header = () => {
     }
   };
 
+  const [scrollY, setScrollY] = useState(0);
+
+  const handleScroll = () => {
+    setScrollY(window.scrollY);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  // Изменяем размер элемента в зависимости от scrollY
+  const getSizeClass = () => {
+    if (scrollY < 15) {
+      return 'h-[120px] w-[90px] relative top-[-10px]'; // начальный размер
+    } else{
+      return 'h-[120px] w-[60px]'; // уменьшается при скролле
+    }
+  };
+
 
   const user = useUser();
 
@@ -92,9 +131,17 @@ const Header = () => {
     UsersService.logout();
   }
 
+  const handleClick = (product) => {
+    // Навигация к новому роуту с параметрами
+    navigate({
+      pathname: '/farm-shop', 
+      search: `?search=${product}`
+    });
+  };
+
   return (
   <>
-    <Link to="/farmy-app">
+    <Link className='hidden md:block' to="/farmy-app">
       <div className="flex max-w-[1210px] justify-end mx-auto items-center gap-[7px] pt-2.5">
         <img height={29} width={26} src={mobileAppSvg} alt="" />
         <p className=" font-extrabold">Do you know the Farmy app?</p>
@@ -104,12 +151,13 @@ const Header = () => {
     <div id="google_translate_element"></div>
     {/*  */}
       <header className='hidden md:block w-[100vw] border-b border-[#27aa55] sticky top-0 z-[1000] left-0'>
+        <SeachWindow open={search} close={() => setSearch(false)}/>
         <div className='bg-white font-[signika]'>
           <div className='container flex justify-between items-center h-[100px] '>
             <div className='flex gap-[50px] items-center'>
               <a href='/'>
                 <img
-                  className='w-[80px] h-[80px]'
+                  className={`${getSizeClass()} cursor-pointer transition-all`}
                   src='https://d23qaq2ahooeph.cloudfront.net/assets/farmy_main_logo_2021-a4bb04c0a7b06ab668a55ef622c39f24d2823a490ffcc37a18ed1eced70df81c.svg'
                   alt=''
                 />
@@ -151,8 +199,12 @@ const Header = () => {
                   >
                     en
                   </button>
-                  <p>Zürich</p>
-                  <p>Next delivery date</p>
+                  {user ? (
+                    <p onClick={() => setActiveModal(true)} className='text-[#F4991A] cursor-pointer mx-3 underline'>{user.zipcode}</p>
+                  ) : (
+                    <p onClick={() => setActiveModal(true)} className='text-[#F4991A] cursor-pointer mx-3 underline'>Zürich</p>
+                  )}
+                  <p>Next delivery date <a className='text-[#F4991A]' href="cost-delivery">09. Sep</a></p>
                 </div>
                 <div className='flex gap-3 font-bold text-[16px]'>
                   <a href='/farm-shop' className='hover:text-[#F4991A]'>
@@ -173,7 +225,7 @@ const Header = () => {
                 </div>
               </div>
             </div>
-            <div className='flex flex-col gap-3 justify-end'>
+            <div className='flex flex-col gap-3'>
               {!user ? (
                 <div className='text-end'>
                   <a
@@ -184,7 +236,7 @@ const Header = () => {
                   </a>
                 </div>
               ) : (
-                <div className='text-end'>
+                <div className='text-end flex justify-end'>
                 <Dropdown
                     trigger={['click']}
                     menu={{ items }}
@@ -205,10 +257,13 @@ const Header = () => {
                 </div>
               )}
               <div className='flex gap-3'>
-                
+              <button onClick={() => setSearch(true)} className="w-[140px] text-[#959595] flex items-center pl-3 justify-start gap-2 border">
+                <SearchOutlined />
+                    search...
+              </button>                
               <a href="/cart">
                 <button className="w-[140px] text-[#959595] flex items-center justify-center gap-2 border">
-                    <img width={19} height={19} src={cartImg} alt="" /> ({user.cart.length})CHF 0
+                    <img width={19} height={19} src={cartImg} alt="" />({user?.cart ? user.cart.length : cart?.length ? cart.length : 0})CHF 0
                 </button>
               </a>
               </div>
@@ -216,12 +271,12 @@ const Header = () => {
           </div>
         </div>
         <div className='bg-[#107433] py-2'>
-        <div className="max-w-[1240px] mx-[auto] flex justify-between gap-3 text-[12px] text-[#FFFFFF] text-center items-center">
+        <div className="max-w-[1100px] mx-[auto] flex justify-between gap-3 text-[12px] text-[#FFFFFF] text-center items-center">
             {typeOfProducts.map((product) => (
               <a
                 key={product}
                 // href={`/market/${() => setSearchParams({ search: product }}`}
-                onClick={() => setSearchParams({ search: product })}
+                onClick={() => handleClick(product)}
                 className="text-[12px] cursor-pointer text-white font-bold hover:text-[#F4991A]"
               >
                 {product}
@@ -230,6 +285,30 @@ const Header = () => {
           </div>
         </div>
       </header>
+
+      {/* Mobail */}
+      <header className='block md:hidden w-[100vw] h-[50px] sticky top-0 z-[1000] left-0'>
+          <div className="bg-white font-[signika] px-3 flex items-center justify-between h-[100%] border-b border-[#d8d8d8]">
+            <a href="/"><img className='w-[33px] h-[36px]' src="https://d23qaq2ahooeph.cloudfront.net/assets/farmy_main_logo_mobile_2021-8eef2297ff12eff810b770ea421b83fffc826aac7b361b553c3aa7aad252a678.svg" alt="" /></a>
+            <div className="flex gap-3 items-center h-[100%]">
+                <img className='w-[30px] h-[30px]' src="https://d23qaq2ahooeph.cloudfront.net/assets/icon_profile_green-44eada336c44706c930cdf775506c6b72c99882fcf867735f661e0dec8c6feb8.png" alt="" />
+              <a className='h-[100%] pl-3 border-l border-[#d8d8d8] flex justify-center items-center' href="/profile-settings">
+                <img className='w-[30px] h-[30px]' src="https://d23qaq2ahooeph.cloudfront.net/assets/icon_search_green-1f14c3074ad8393dc6cc16d459b8b8c8894fffd79961fe8dca5d734ed6fea080.png" alt="" />
+              </a>
+              <a className='h-[100%] pl-3 border-l border-[#d8d8d8] flex justify-center items-center' href="/cart">
+                <img className='w-[30px] h-[30px]' src="https://d23qaq2ahooeph.cloudfront.net/assets/icon_bag_green-8f463a571cc80186649f8995e16371969c1556fba40ef13ecab35632def5a622.png" alt="" />
+              </a>
+              <div onClick={() => setActiveBurger(!activeBurger)} className='h-[100%] pl-3 border-l border-[#d8d8d8] flex justify-center items-center'>
+                <img className='w-[30px] h-[30px]' src="https://d23qaq2ahooeph.cloudfront.net/assets/icon_burger_menu_green-f041f21029bfb93249b0cac0db040e7b80458f6afc431e22bd2381bba3000a27.png" alt="" />
+              </div>
+            </div>
+          </div>
+          <BurgerMenu active={activeBurger} />
+      </header>
+      <PostcodeModal
+        isModalOpen={activeModal === true}
+        onClose={() => setActiveModal(false)}
+      />
   </>
   );
 };

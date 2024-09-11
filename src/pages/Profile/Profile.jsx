@@ -2,16 +2,16 @@ import { useState } from "react";
 import SettingSection from "../../components/Settings/SettingSection";
 import { useUser } from "../../hooks/useUser";
 
-const Profile = ({ section }) => {
+const Profile = ({ settings }) => {
   const user = useUser();
-  const [activeSection, setActiveSection] = useState("myInfo");
+  const [activeSection, setActiveSection] = useState(settings);
 
   const changeSection = (section) => {
     setActiveSection(section);
   };
 
   return (
-    <div className="flex justify-center min-w-[70vw] pt-10 gap-12">
+    <div className="flex flex-col md:flex-row justify-center min-w-[70vw] pt-10 gap-12">
       <div className="">
         <li
           onClick={() => changeSection("myInfo")}

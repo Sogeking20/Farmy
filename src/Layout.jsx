@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
+import { CartProvider } from './CartContext';
 
 const LangContext = createContext();
 
@@ -14,13 +15,13 @@ const Layout = ({ children }) => {
   };
 
   return (
-    <div>
       <LangContext.Provider value={{ lang, changeLang }}>
-        <Header />
-        <main className="">{children}</main>
-        <Footer />
+        <CartProvider>
+          <Header />
+          <main className="">{children}</main>
+          <Footer />
+        </CartProvider>
       </LangContext.Provider>
-    </div>
   );
 };
 

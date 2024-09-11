@@ -21,6 +21,8 @@ export const UsersService = {
     if (this.checkUsers('email', userData.email)) {
       localStorage.setItem('users', JSON.stringify([...prevUsers, userData]));
       this.loginUser(userData);
+      clearCart();
+
       return true;
     }
 
@@ -53,39 +55,46 @@ export const UsersService = {
     window.location.reload();
   },
 
-  addToCart(name, description, img, price) {
+  addToCart(name, description, img, price, id) {
     console.log(name, description, img, price);
     const prevUser = JSON.parse(localStorage.getItem('currentUser')) || {};
-
+    
     if (prevUser) {
+      console.log(prevUser);
       if (prevUser?.cart) {
-        if (!prevUser.cart.includes(name)) {
+        console.log(prevUser.cart);
+        if (!prevUser.cart.includes([name, description, img, price, id])) {
+          console.log('qwe');
           localStorage.setItem(
             'currentUser',
-            JSON.stringify({ ...prevUser, cart: [...prevUser?.cart] })
+            JSON.stringify({ ...prevUser, cart: [...prevUser.cart, [name, description, img, price, id]] })
           );
 
           this.updateUser(prevUser.email, {
             ...prevUser,
-            cart: [...prevUser?.cart],
+            cart: [[name, description, img, price, id]],
           });
         }
       } else {
+        console.log('asd');
         localStorage.setItem(
           'currentUser',
-          JSON.stringify({ ...prevUser, cart: [name, description, img, price] })
+          JSON.stringify({ ...prevUser, cart: [[name, description, img, price]] })
         );
 
-        this.updateUser(prevUser.email, { ...prevUser, cart: [name] });
+        this.updateUser(prevUser.email, { ...prevUser, cart: [[name, description, img, price]] });
       }
     }
   },
+  
 
-  deleteFromCart(name, price, description) {
+  deleteFromCart(name) {
     const prevUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+    console.log(name);
 
-    if (prevUser?.cart?.length) {
-      const newCart = prevUser.cart.filter(itemName => itemName !== name);
+    if (prevUser?.cart) {
+      const newCart = prevUser.cart.filter(product => product[0] !== name);
+      console.log(newCart);
 
       localStorage.setItem(
         'currentUser',
@@ -96,6 +105,17 @@ export const UsersService = {
 
       window.location.reload();
     }
+  },
+
+  deleteCart(name) {
+    const prevUser = JSON.parse(localStorage.getItem('currentUser')) || {};
+    console.log(name);
+
+    const newCart = []
+    this.updateUser(prevUser.email, { ...prevUser, cart: newCart });
+
+    window.location.reload();
+    
   },
 
   updateUser(email, newData) {
