@@ -22,6 +22,7 @@ import CostDelivery from './pages/CostDelivery/CostDelivery';
 import FarmyPass from './pages/FarmyPass/FarmyPass';
 import ProductKnowledgePage from './pages/ProductKnowledgePage/ProductKnowledgePage';
 import { CartProvider } from './CartContext';
+import Favorites from './pages/Favorites/Favorites';
 
 function App() {
   const { letter } = useParams(); // Извлекаем параметр из URL
@@ -66,6 +67,7 @@ function App() {
               <Route path='/profile-settings-bonus-eggs' element={<Profile settings={'bonusEggs'} />} />
               <Route path='/farmy-pass' element={<FarmyPass />} />
               <Route path='/product-knowledge/:letter' element={<ProductKnowledgePage />} />
+              <Route path='/favorites' element={<Favorites />} />
             </Routes>
             
           {/* </CartProvider> */}

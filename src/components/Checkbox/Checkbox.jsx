@@ -24,11 +24,11 @@ export const Drawer = ({ text, list }) => {
     <>
       <hr className="my-5" />
       <div className="w-[100%]">
-        <div onClick={toggleAccordion} className="w-[100%] text-[18px] flex justify-between cursor-pointer">
-          <h3 className=" font-bold text-sm text-[#333333]">{text}</h3>
+        <div onClick={toggleAccordion} className="w-[100%] text-[15px] pl-[5px] flex justify-between cursor-pointer">
+          <h3 className=" text-[15px] font-bold text-sm text-[#333333]">{text}</h3>
           {isOpen ? <CaretDownOutlined /> : <CaretLeftOutlined  />}
           </div>
-          {isOpen && <div className="flex flex-col">
+          {isOpen && <div className="flex flex-col text-[14px]">
                   {list.map((el) => (
                     <Checkbox key={el} text={el} />
                   ))}

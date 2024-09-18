@@ -2,6 +2,9 @@
 import React, { useState } from 'react';
 import { FacebookOutlined, XOutlined,InstagramOutlined, YoutubeOutlined } from "@ant-design/icons";
 import PostcodeModal from '../PostcodeModal/PostcodeModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faInstagram, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { faFacebookF } from '@fortawesome/free-brands-svg-icons';
 
 const Footer = () => {
   const [activeModal, setActiveModal] = useState(false);
@@ -12,10 +15,6 @@ const Footer = () => {
         <div className='flex justify-between items-center flex-col md:flex-row md:items-start'>
           <div className='w-[80%] md:w-[60%] flex gap-[40px] flex-col md:flex-row mb-[50px] md:mb-0'>
             <div className="w-[100%] md:w-[60%]">
-              <div className="flex w-[100%] mb-[15px] rounded-xl">
-                <input type="text" className='w-[80%]'/>
-                <button className='w-[72px] border bg-[#F4991A] text-white border-[#F4991A]'>Subscribe</button>
-              </div>
               <div className="flex justify-between w-[100%]">
                 <div className="mx-auto md:mx-0">
                   <p className='text-white'>Do you have a question?</p>
@@ -47,10 +46,10 @@ const Footer = () => {
           </div>
           <div className="flex flex-col gap-5 flex-end items-center md:items-start">
             <div className="flex gap-3">
-              <a href="https://www.facebook.com/farmy.ch" className='w-[36px] h-[36px] bg-white rounded-full flex justify-center items-center'><FacebookOutlined  style={{fontSize: '22px'}}/></a>
-              <a href="https://twitter.com/farmyCH" className='w-[36px] h-[36px] bg-white rounded-full flex justify-center items-center'><XOutlined style={{fontSize: '22px'}}/></a>
-              <a href="https://www.instagram.com/farmy_ch/" className='w-[36px] h-[36px] bg-white rounded-full flex justify-center items-center'><InstagramOutlined style={{fontSize: '22px'}}/></a>
-              <a href="https://www.youtube.com/channel/UCv6zohUoy1j3XxK2u1MtFWQ" className='w-[36px] h-[36px] bg-white rounded-full flex justify-center items-center'><YoutubeOutlined style={{fontSize: '22px'}}/></a>
+              <a href="https://www.facebook.com/farmy.ch" className='w-[36px] h-[36px] bg-white rounded-full flex justify-center items-center transition-all hover:bg-[blue] hover:text-[white]'><FontAwesomeIcon className='text-[18px]' icon={faFacebookF} /> </a>
+              <a href="https://twitter.com/farmyCH" className='w-[36px] h-[36px] bg-white rounded-full flex justify-center items-center transition-all hover:bg-[black] hover:text-[white]'><XOutlined style={{fontSize: '22px'}}/></a>
+              <a href="https://www.instagram.com/farmy_ch/" className='w-[36px] h-[36px] bg-white rounded-full flex justify-center items-center transition-all hover:bg-[#DD2A7B] hover:text-[white]'><InstagramOutlined style={{fontSize: '22px'}}/></a>
+              <a href="https://www.youtube.com/channel/UCv6zohUoy1j3XxK2u1MtFWQ" className='w-[36px] h-[36px] bg-white rounded-full flex justify-center items-center transition-all hover:bg-[red] hover:text-[white]'><YoutubeOutlined style={{fontSize: '22px'}}/></a>
             </div>
             <div className="flex gap-3 items-center">
               <a href="https://www.trustedshops.ch/bewertung/info_XC41A6F67DA01EF4108CC6FE6DBCE521C.html" className='w-[55px] h-[55px] rounded-full'><img src="https://www.farmy.ch/resources/farmy/images/components/shared/SiteFooter/trusted-shops-badge.webp" alt="" /></a>

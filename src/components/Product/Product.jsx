@@ -1,11 +1,12 @@
-import { HeartOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
+import { HeartOutlined, PlusOutlined, MinusOutlined, HeartFilled } from '@ant-design/icons';
 import { Button } from 'antd';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { useUser } from '../../hooks/useUser';
 import { UsersService } from '../../services/user.service';
 import PostcodeModal from '../PostcodeModal/PostcodeModal';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../../CartContext';
+import Item from 'antd/es/list/Item';
 
 export default function Product({
   img,
@@ -19,80 +20,76 @@ export default function Product({
 
   const { cart } = useContext(CartContext);
 
+  const [offerPrice, setOfferPrice] = useState('');
 
-  const arr = ['Seasonal', '', '-20%']
+  useEffect(() => {
+    const arr = ['Seasonal', '', '-20%'];
+    const rand = Math.floor(Math.random() * arr.length);
+    setOfferPrice(arr[rand]); // Обновляем состояние внутри useEffect
+  }, []);
 
-  const rand = Math.floor(Math.random() * arr.length);
-  const offerPrice = arr[rand];
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, minus, addToFavorites, favorites } = useContext(CartContext);
 
 
   const [activeModal, setActiveModal] = useState(false);
 
   function onClick() {
-    if (!user) {
-      const newItem = { name: name, description: description, img: img, price: priceAfrer, id: id };
-      addToCart(newItem);
-      // setActiveModal(true);
-    } else {
-      // console.log(name, description );
-      UsersService.addToCart(name, description, img, priceAfrer, id);
-      // console.log(img);
-    }
+    const newItem = { name: name, description: description, img: img, price: priceAfrer, id: id, num: 1 };
+    console.log(newItem)
+    addToCart(newItem);
   }
 
   const prevUser = JSON.parse(localStorage.getItem('currentUser')) || {};
 
   return (
-    <div className='min-w-[160px] max-w-[270px] h-full border'>
+    <div className='min-w-[160px] shadow-md max-w-[270px] h-full border'>
       <div className='relative h-[55%] w-[100%]'>
         <div className='group relative w-[100%] h-[100%]'>
           <img className='w-[100%] h-[100%]' src={img} alt='' />
           <div className='absolute w-[100%] h-[100%] top-0 bg-[#000000] transition-all opacity-0 group-hover:opacity-100 bg-opacity-50'>
-            <div className='flex flex-col w-[100%] h-[100%] gap-3 items-center justify-center text-white opacity-100'>
-              <p className='text-[23px]'>Only</p>
-              <p className='text-[28px]'>CHR 11.90</p>
-              <Link to={`/product/${id}`} className='underline text-[16px]'>
-                View product
-              </Link>
-              {user?.cart ? (!user.cart.includes(name) && !cart?.includes(id) ? (
-                <Button
-                onClick={onClick}
-                icon={<PlusOutlined />}
-                style={{
-                  width: '80%',
-                  backgroundColor: '#F4991A',
-                  borderColor: '#F4991A',
-                  fontSize: '19px',
-                  opacity: '1',
-                  color: 'white',
-                  fontWeight: 'bold',
-                }}
-              >
-                Add to cart
-              </Button>) : (
-                <div className="w-[100%] flex gap-3 justify-center text-black">
-                  <button className='w-[110px] bg-white h-[45px] border border-[#999999]'><MinusOutlined /></button>
-                  <button className='w-[110px] bg-[#F4991A] h-[45px] border border-[#999999]'><PlusOutlined /></button>
-                </div>
-              )) : (
-                
-                <Button
-                onClick={onClick}
-                icon={<PlusOutlined />}
-                s
-                style={{
-                  width: '80%',
-                  backgroundColor: '#F4991A',
-                  borderColor: '#F4991A',
-                  fontSize: '19px',
-                  opacity: '1',
-                  color: 'white',
-                  fontWeight: 'bold',
-                }}
-              >
-                Add to cart
-              </Button>
+            <div className='flex flex-col w-[100%] h-[100%] gap-0 items-center justify-center text-white opacity-100 py-3'>
+
+              {!cart?.find(item => item.name === name) ? (
+                <>
+                  <p className='text-[23px]'>Only</p>
+                  <p className='text-[28px]'>CHR 11.90</p>
+                  <Link to={`/product/${id}`} className='underline text-[16px]'>
+                    View product
+                  </Link>
+                  <Button
+                  onClick={onClick}
+                  icon={<PlusOutlined />}
+                  style={{
+                    width: '80%',
+                    backgroundColor: '#F4991A',
+                    borderColor: '#F4991A',
+                    fontSize: '19px',
+                    opacity: '1',
+                    color: 'white',
+                    fontWeight: 'bold',
+                  }}
+                                >
+                  Add to cart
+                  </Button>
+                </>) : (
+                <>
+                  <p className='text-[28px]'>
+                    {cart.map((item) => {
+                      if (item.name === name) {
+                        return item.num
+                      }
+                    })} Piece
+                  </p>
+                  <p className='text-[23px]'>In Cart</p>
+                  <Link to={`/product/${id}`} className='underline text-[16px]'>
+                    View product
+                  </Link>
+                  
+                  <div className='w-[100%] flex justify-between gap-3 px-5'>
+                    <button onClick={() => minus({name: name})} className='w-[110px] text-black bg-white h-[45px] border border-[#999999]'><MinusOutlined /></button>
+                    <button onClick={onClick} className='w-[110px] bg-[#F4991A] h-[45px] border border-[#F4991A]'><PlusOutlined /></button>
+                  </div>
+                </>
               )
             }
             </div>
@@ -108,10 +105,12 @@ export default function Product({
 
         )
         }
-        <div className='absolute right-3 top-3'>
-          <HeartOutlined
+        <div onClick={() => addToFavorites({ name: name, description: description, img: img, price: priceAfrer, id: id})} className='absolute right-3 top-3'>
+          { favorites?.find(item => item.name === name) ? (<HeartFilled style={{ color: 'red', fontSize: '25px', cursor: 'pointer' }} />) : (<HeartOutlined style={{ color: '#999999', fontSize: '25px', cursor: 'pointer' }} />) }
+          {/* <HeartOutlined
+            className={`${favorites?.find(item => item.name === name) ? 'bg-[red]' : 'bg-[#999999]'}`}
             style={{ color: '#999999', fontSize: '25px', cursor: 'pointer' }}
-          />
+          /> */}
         </div>
       </div>
       <div className='flex flex-col h-[45%] justify-between py-1 px-3'>
@@ -126,7 +125,7 @@ export default function Product({
               {priceBefore}{priceAfrer + 10}
               <span className='absolute w-[48px] h-[1px] bg-[#F4991A] bottom-2.5 left-0 -rotate-[18deg]'></span>
             </div>) : (<div></div>)}
-            <div className='relative text-[16px] text-[#F4991A]'>
+            <div className={`relative text-[16px] ${(offerPrice === '-20%') ? 'text-[#F4991A]' : 'text-[#107431]'}`}>
               <span className='relative top-[-5px] text-[12px] mr-[2px]'>
                 CHR
               </span>

@@ -13,37 +13,46 @@ import BurgerMenu from '../BurgerMenu/BurgerMenu';
 import SeachWindow from '../SeachWindow/SeachWindow';
 import { CartContext } from '../../CartContext';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// Импорт нужных иконок
+import { faLock, faLocation, faLocationDot } from '@fortawesome/free-solid-svg-icons'
+
 
 const Header = () => {
   const items = [
     {
-      label: <a href='/profile-settings'>Farmy Family profile</a>,
+      label: <a href='/favorites'>My favorites</a>,
       key: '0',
         
     },
     {
-      label: <a href='/profile-settings'>My account</a>,
+      label: <a href='/profile-settings'>Farmy Family profile</a>,
       key: '1',
-      
+        
     },
     {
-      label: <a href='/farmy-pass'>Farmy Pass</a>,
+      label: <a href='/profile-settings'>My account</a>,
       key: '2',
       
     },
     {
-    label: <a href='/profile-settings-account-balance'>Account balance</a>,
-    key: '3',
-    
+      label: <a href='/farmy-pass'>Farmy Pass</a>,
+      key: '3',
+      
     },
     {
-    label: <a href='/profile-settings-bonus-eggs'>Bonus Eggs</a>,
+    label: <a href='/profile-settings-account-balance'>Account balance</a>,
     key: '4',
     
     },
     {
+    label: <a href='/profile-settings-bonus-eggs'>Bonus Eggs</a>,
+    key: '5',
+    
+    },
+    {
       label: <a onClick={onClick}>Log Out</a>,
-      key: '5',
+      key: '6',
       
     },
   ]
@@ -51,8 +60,6 @@ const Header = () => {
   // const { cart } = useContext(CartContext);
 
   const { changeLang, lang } = useLang();
-
-  const [searchParams, setSearchParams] = useSearchParams();
 
   const [isTranslateReady, setIsTranslateReady] = useState(false);
 
@@ -64,7 +71,11 @@ const Header = () => {
 
   const [search, setSearch] = useState(false);
 
-  const { cart } = useContext(CartContext);
+  const { cart, endPrice } = useContext(CartContext);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const [activeIndex, setActiveIndex] = useState(null)
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -131,7 +142,9 @@ const Header = () => {
     UsersService.logout();
   }
 
-  const handleClick = (product) => {
+  const handleClick = (product, index ) => {
+    setActiveIndex(index)
+    
     // Навигация к новому роуту с параметрами
     navigate({
       pathname: '/farm-shop', 
@@ -200,14 +213,20 @@ const Header = () => {
                     en
                   </button>
                   {user ? (
-                    <p onClick={() => setActiveModal(true)} className='text-[#F4991A] cursor-pointer mx-3 underline'>{user.zipcode}</p>
+                    <div className='flex gap-1 items-center mx-3 cursor-pointer'>
+                      <FontAwesomeIcon icon={faLocationDot} />
+                      <p onClick={() => setActiveModal(true)} className='text-[#F4991A] underline'>{user.zipcode}</p>
+                    </div>
                   ) : (
-                    <p onClick={() => setActiveModal(true)} className='text-[#F4991A] cursor-pointer mx-3 underline'>Zürich</p>
+                    <div className='flex gap-1 items-center mx-3 cursor-pointer'>
+                      <FontAwesomeIcon icon={faLocationDot} />
+                      <p onClick={() => setActiveModal(true)} className='text-[#F4991A] underline'>Zürich</p>
+                    </div>
                   )}
                   <p>Next delivery date <a className='text-[#F4991A]' href="cost-delivery">09. Sep</a></p>
                 </div>
                 <div className='flex gap-3 font-bold text-[16px]'>
-                  <a href='/farm-shop' className='hover:text-[#F4991A]'>
+                  <a href='/farm-shop' className='hover:text-[#F4991A] '>
                     Market
                   </a>
                   <a href='/farm-shop' className='hover:text-[#F4991A]'>
@@ -230,8 +249,9 @@ const Header = () => {
                 <div className='text-end'>
                   <a
                     href='/login'
-                    className='text-[16px] font-bold hover:text-[#F4991A]'
+                    className='text-[16px] flex gap-2 w-[100%] justify-end hover:text-[#F4991A]'
                   >
+                    <FontAwesomeIcon width={12} icon={faLock} /> 
                     Log in
                   </a>
                 </div>
@@ -262,8 +282,8 @@ const Header = () => {
                     search...
               </button>                
               <a href="/cart">
-                <button className="w-[140px] text-[#959595] flex items-center justify-center gap-2 border">
-                    <img width={19} height={19} src={cartImg} alt="" />({user?.cart ? user.cart.length : cart?.length ? cart.length : 0})CHF 0
+                <button className={`${cart?.length ? 'bg-[#F4991A] text-white' : 0} w-[140px] text-[#959595] flex items-center justify-center gap-2 border`}>
+                    <img width={19} height={19} src={cart?.length ? "https://d23qaq2ahooeph.cloudfront.net/assets/cart-a3662d20e778e18f7113a8c61b5c2aae355ad501d14d23e1e09ec4e9b51b266e.png" : cartImg} alt="" />({cart?.length ? cart.length : 0})CHF {Number((endPrice).toFixed(2))}
                 </button>
               </a>
               </div>
@@ -271,13 +291,14 @@ const Header = () => {
           </div>
         </div>
         <div className='bg-[#107433] py-2'>
-        <div className="max-w-[1100px] mx-[auto] flex justify-between gap-3 text-[12px] text-[#FFFFFF] text-center items-center">
-            {typeOfProducts.map((product) => (
+        <div className="max-w-[1100px] mx-[auto] flex justify-between gap-3 text-[12px] text-[#FFFFFF] text-center items-start">
+            {typeOfProducts.map((product, index) => (
               <a
                 key={product}
                 // href={`/market/${() => setSearchParams({ search: product }}`}
-                onClick={() => handleClick(product)}
-                className="text-[12px] cursor-pointer text-white font-bold hover:text-[#F4991A]"
+                onClick={() => handleClick(product, index)}
+                className={`text-[12px] cursor-pointer text-white font-bold hover:text-[#F4991A] ${activeIndex === index ? "text-[#F4991A]" : ""}`}
+                // style={{ color: activeIndex === index ? "#F4991A" : "white" }}
               >
                 {product}
               </a>

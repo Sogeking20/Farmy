@@ -5,7 +5,8 @@ import { useParams } from "react-router-dom";
 import { useUser } from '../../hooks/useUser';
 import { UsersService } from '../../services/user.service';
 import { CartContext } from '../../CartContext';
-
+import { HeartOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
+import CartWindow from "../../components/CartWindow/CartWindow";
 
 export default function ProductPage() {
   const [activeText, setActiveText] = useState(0);
@@ -14,7 +15,9 @@ export default function ProductPage() {
   const [data, setData] = useState([]);
   const { id } = useParams();
   const user = useUser();
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, minus } = useContext(CartContext);
+
+  const { cart } = useContext(CartContext);
 
   const { lang } = useLang();
   const generateLang = () => {
@@ -44,15 +47,10 @@ export default function ProductPage() {
 
     
     function onClick() {
-      if (!user) {
-      const newItem = { name: product.name, description: product.description, img: product.images[1], price: product.price, id: product.id };
-      
+      const newItem = { name: product.name, description: product.supplier.name, img: product.images.lg, price: product.price, id: product.id };
+      console.log(newItem)
+
       addToCart(newItem);
-    } else {
-      console.log(product)
-      console.log(product.name, product.description)
-      UsersService.addToCart(product.name, product.description, product.images[1], product.price, product.id);
-    }
   }
 
 
@@ -62,7 +60,7 @@ export default function ProductPage() {
 
     if (product) {
       return (
-            <div className='container w-[100%] lg:flex gap-4'>
+            <div className={`max-w-[1140px] mx-[auto] px-10 w-[100%] lg:flex gap-4 ${cart?.length ? "xl:relative xl:pr-[200px] xl:box-content" : ""}`}>
               <div className='w-[100%] lg:w-[65%] relative'>
                 <div className='w-[100%]'>
                   <img
@@ -246,9 +244,16 @@ export default function ProductPage() {
                     <span className='relative top-[-5px] text-[12px]'>CHF</span> {product.price}/
                     Piece
                   </p>
+                  {!cart?.find(item => item.name === product.name) ? (
                   <button onClick={onClick} className='text-[18px] bg-[#F4991A] text-[white] py-[10px] px-[70px] font-bold mb-[30px]'>
-                    Add to cart
-                  </button>
+                  Add to cart
+                </button>) : (
+                <div className='w-[100%] flex justify-between gap-3'>
+                  <button onClick={() => minus({name: name})} className='w-[20%] text-black bg-white h-[45px] border border-[#999999]'><MinusOutlined /></button>
+                  <button onClick={onClick} className='w-[70%] bg-[#F4991A] h-[45px] text-white border border-[#F4991A]'><PlusOutlined /></button>
+                </div>
+              )
+            }
                   <p className='text-[12px] text-[#F4991A] cursor-pointer font-semibold'>
                     plus shipping costs
                   </p>
@@ -320,6 +325,11 @@ export default function ProductPage() {
                 </a>
                 <Divider className='border-black' />
               </div>
+              {user?.cart ? <div className="hidden xl:block">
+                <CartWindow />
+              </div> : cart ? <div className="hidden xl:block">
+                <CartWindow />
+              </div> : null}
             </div>
       );
 

@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useContext } from "react";
 import { CartContext } from '../../CartContext';
 import "./Cart.css";
-
+import InfoModal from './InfoModal/InfoModal';
+import InfoModalSecond from './InfoModal/InfoModalSecond';
 
 const Cart = () => {
   const [offerQuantity, setOfferQuantity] = useState(9.9);
@@ -13,26 +14,12 @@ const Cart = () => {
   const [realPrice, setRealPrice] = useState(realQuantity);
   const navigate = useNavigate();
   const user = useUser();
-  const { cart, addToCart, clearCart, deleteFromCart } = useContext(CartContext);
-  console.log(cart);
+  const { cart, minus, setEndPrice, addToCart, clearCart, deleteFromCart } = useContext(CartContext);
+  const [infoModalOpen, setInfoModalOpen] = useState(false);
+  const [infoModalOpenSecond, setInfoModalOpenSecond] = useState(false);
 
   let changePrice = offerPrice % 1;
 
-  const handleIncrease = () => {
-    setOfferPrice(offerPrice + offerQuantity);
-    setRealPrice(realPrice + realQuantity);
-  };
-
-  const handleDecrease = () => {
-    setOfferPrice(offerPrice - offerQuantity);
-    setRealPrice(realPrice - realQuantity);
-  };
-
-  // useEffect(() => {
-  //   if (!user) {
-  //     navigate('/login');
-  //   }
-  // }, [user]);
 
   useEffect(() => {
     if (!user?.cart?.length && !cart?.length) {
@@ -40,7 +27,11 @@ const Cart = () => {
     }
   }, [user.cart]);
 
-  let totalPrice = 8.69;
+  let totalPrice = 7.90;
+
+  // useEffect(() => {
+  //   setEndPrice(totalPrice);
+  // }, [totalPrice]);
 
   let price = 0
 
@@ -75,77 +66,21 @@ const Cart = () => {
                   </h3>
                 </div>
               </div>
-              {
-                user ? (
-                user?.cart?.length
-                  ? (() => {
-                      // let totalPrice = 0; // переменная для хранения общей суммы
-                      return user.cart.map((itemName) => {
-                        const [num, setNum] = useState(1);
-  
-                        // Если количество меньше 1, удалить товар из корзины
-                        if (num < 1) {
-                          UsersService.deleteFromCart(itemName[0]);
-                        }
-  
-                        // Добавляем цену текущего товара к общей сумме
-                        totalPrice += itemName[3] * num;
-                        price += itemName[3] * num
-  
-                        return (
-                          <div
-                            key={itemName[0]}
-                            className="cart-left-body-bottom flex justify-between items-center mb-3"
-                          >
-                            <div>
-                              <a href={`/product/${itemName[4]}`}>
-                                <h3 className="text-[18px] text-[#333]">{itemName[0]}</h3>
-                              </a>
-                              <div className="flex gap-6 mt-4">
-                                <a href={`/product/${itemName[4]}`}><img src={itemName[2]} alt="image" width={75} height={75} /></a>
-                                <p className="text-[#333] text-[17px]">{itemName[1]}</p>
-                              </div>
-                            </div>
-  
-                            <div className="flex gap-20">
-                              <div className="">
-                                <div className="flex justify-between gap-4 pb-2 border-b-2 border-[#107433]">
-                                  <button
-                                    className="minus-button rounded"
-                                    onClick={() => setNum(num - 1)}
-                                  >
-                                    -
-                                  </button>
-                                  <button
-                                    className="plus-button rounded"
-                                    onClick={() => setNum(num + 1)}
-                                  >
-                                    +
-                                  </button>
-                                </div>
-                                <p className="text-center text-[#107433]">{num} Dosen</p>
-                              </div>
-                              <div className="text-center">
-                                <sup>CHF</sup> {Number(itemName[3]).toFixed(2) * num}.
-                                <sup></sup>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      });
-                    })()
-                  : 'Нет продуктов в корзине'
-                
-              ) : (           
+              {          
                   cart?.length
                     ? (() => {
                         // let totalPrice = 0; // переменная для хранения общей суммы
                         return cart.map((item) => {
-                          const [num, setNum] = useState(1);
+                          const [num, setNum] = useState(Number(item.num));
     
                           // Если количество меньше 1, удалить товар из корзины
-                          if (num < 1) {
+                          if (item.num < 1) {
                             deleteFromCart(item.name);
+                          }
+
+                          function plus () {
+                            setNum(num + 1)
+                            addToCart(item.name)
                           }
     
                           // Добавляем цену текущего товара к общей сумме
@@ -153,66 +88,57 @@ const Cart = () => {
                           price += item.price * num
     
                           return (
-                            <div
-                              key={item.name}
-                              className="cart-left-body-bottom flex justify-between items-center mb-3"
-                            >
-                              <div>
-                                <h3 className="text-[18px] text-[#333]">{item.name}</h3>
-                                <div className="flex gap-6 mt-4">
-                                  <img src={item.img} alt="image" width={75} height={75} />
-                                  <p className="text-[#333] text-[17px]">{item.description}</p>
-                                </div>
-                              </div>
-    
-                              <div className="flex gap-20">
-                                <div className="">
-                                  <div className="flex justify-between gap-4 pb-2 border-b-2 border-[#107433]">
-                                    <button
-                                      className="minus-button rounded"
-                                      onClick={() => setNum(num - 1)}
-                                    >
-                                      -
-                                    </button>
-                                    <button
-                                      className="plus-button rounded"
-                                      onClick={() => setNum(num + 1)}
-                                    >
-                                      +
-                                    </button>
+                            <>
+                              <div
+                                key={item.name}
+                                className="cart-left-body-bottom flex justify-between items-center mb-3"
+                              >
+                                <div>
+                                  <h3 className="text-[18px] text-[#333]">{item.name}</h3>
+                                  <div className="flex gap-6 mt-4">
+                                    <img src={item.img} alt="image" width={75} height={75} />
+                                    <p className="text-[#333] text-[17px]">{item.description}</p>
                                   </div>
-                                  <p className="text-center text-[#107433]">{num} Dosen</p>
                                 </div>
-                                <div className="text-center">
-                                  <sup>CHF</sup> {Number(item.price).toFixed(2) * num}.
-                                  <sup></sup>
+                                <div className="flex gap-20">
+                                  <div className="">
+                                    <div className="flex justify-between gap-4 pb-2 border-b-2 border-[#107433]">
+                                      <button
+                                        className="minus-button rounded"
+                                        onClick={() => minus({name: item.name})}
+                                        >
+                                        -
+                                      </button>
+                                      <button
+                                        className="plus-button rounded"
+                                        onClick={() => addToCart({name: item.name})}
+                                      >
+                                        +
+                                      </button>
+                                    </div>
+                                    <p className="text-center text-[#107433]">{num} Dosen</p>
+                                  </div>
+                                  <div className="text-center">
+                                    <sup>CHF</sup> {Number((item.price * num).toFixed(2))}.
+                                    <sup></sup>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
+                            </>
                           );
-                        });
+                      });
                       })()
                     : 'Нет продуктов в корзине'
-              )}
+              }
+              <div onClick={() => clearCart()} className="flex mt-8 gap-4 cursor-pointer">
+                <img
+                  src="https://www.farmy.ch/resources/farmy/images/components/newbin.svg"
+                  className="margin-right-10"
+                  alt="basket"
+                />
+                <p className="text-[#999] underline">Warenkorb löschen</p>
+              </div>
             </div>
-            {user?(
-            <div onClick={() => UsersService.deleteCart('')} className="flex mt-8 gap-4 cursor-pointer">
-                  <img
-                    src="https://www.farmy.ch/resources/farmy/images/components/newbin.svg"
-                    className="margin-right-10"
-                    alt="basket"
-                  />
-                  <p className="text-[#999] underline">Warenkorb löschen</p>
-            </div>): (
-            <div onClick={() => clearCart()} className="flex mt-8 gap-4 cursor-pointer">
-            <img
-              src="https://www.farmy.ch/resources/farmy/images/components/newbin.svg"
-              className="margin-right-10"
-              alt="basket"
-            />
-            <p className="text-[#999] underline">Warenkorb löschen</p>
-          </div>
-            )}
           </div>
           <div className="cart-right w-[405px]">
             <div className="right-side">
@@ -223,40 +149,19 @@ const Cart = () => {
                     style={{ background: "rgb(242, 242, 242)" }}
                   >
                     <div className="flex justify-between items-center">
-                      <span className="font-semibold">Warenwert </span>
+                      <span className="font-semibold">Value of goods </span>
                       <span className="text-[18px] font-semibold">
-                        CHF {Number(price).toFixed(2)}
+                        CHF {Number((price).toFixed(2))}
                       </span>
                     </div>
                     <span className="mov-reminder text-[13px] text-[#999] font-bold">
-                      Mindestwert: {price.toFixed(2)} CHF
+                      Value of goods: {Number((price).toFixed(2))} CHF
                     </span>
                   </li>
                   <li className="p-4">
                     <div className="flex justify-between items-center">
-                      <span className="flex items-center gap-2">
-                        Von Hand portioniert{" "}
-                        <svg
-                          stroke="currentColor"
-                          fill="currentColor"
-                          strokeWidth="0"
-                          viewBox="0 0 512 512"
-                          className="text-green-800"
-                          height="1em"
-                          width="1em"
-                          xmlns="http://www.w3.org/2000/svg"
-                          style={{ verticalAlign: "middle" }}
-                        >
-                          <path d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z"></path>
-                        </svg>
-                      </span>
-                      <span>CHF 0.79</span>
-                    </div>
-                  </li>
-                  <li className="p-4">
-                    <div className="flex justify-between items-center">
-                      <span className="flex items-center gap-2">
-                        Mindermengenzuschlag{" "}
+                      <span onClick={() => setInfoModalOpenSecond(true)} className="flex items-center gap-2 cursor-pointer">
+                        Small order surcharge
                         <svg
                           stroke="currentColor"
                           fill="currentColor"
@@ -281,7 +186,7 @@ const Cart = () => {
                       <span className="sc-cZFQFd iIPcxN font-family-alata">
                         (CHF 15.80 - 16.59)
                       </span>
-                      <span>CHF {totalPrice.toFixed(2)}</span>
+                      <span>CHF {Number((totalPrice).toFixed(2))}</span>
                     </div>
                   </li>
                 </ul>
@@ -289,7 +194,7 @@ const Cart = () => {
               <div className="summary-padding">
                 <div className="cta-wrapper">
                   <a href={user ? "/cashier" : "/login"}>
-                    <button disabled={totalPrice.toFixed(2) < 79} style={totalPrice.toFixed(2) < 79 ? { backgroundColor: "#999" } : {backgroundColor: "#F4991A"}} className="sc-jTjUTQ fyKlgw flex p-4 rounded-lg justify-content-space-between align-items-center w-full justify-between">
+                    <button disabled={Number((totalPrice).toFixed(2)) < 79} style={Number((totalPrice).toFixed(2)) < 79 ? { backgroundColor: "#999" } : {backgroundColor: "#F4991A"}} className="sc-jTjUTQ fyKlgw flex p-4 rounded-lg justify-content-space-between align-items-center w-full justify-between">
                       {totalPrice > 79 ? (
                         <div className="full-width flex align-items-center w-full justify-between items-center  justify-content-space-between">
                           <div className="cta-text flex text-align-left text-center  justify-between text-white font-bold text-[20px]">
@@ -298,14 +203,14 @@ const Cart = () => {
                           <div className="total flex gap-2 text-white text-[20px] font-bold">
                             CHF
                             <span className="total-number margin-left-5 max">
-                              {totalPrice.toFixed(2)}
+                              {Number((totalPrice).toFixed(2))}
                             </span>
                           </div>
                         </div>
                       ) : (
                         <div className="full-width flex align-items-center w-full justify-between items-center  justify-content-space-between">
                         <div className="cta-text flex w-[100%] justify-center text-white font-bold text-[20px]">
-                          + add products for CHF {79 - totalPrice.toFixed(2)}
+                          + add products for CHF {Number((79 - totalPrice).toFixed(2))}
                         </div>
                         {/* <div className="total flex gap-2 text-white text-[20px] font-bold">
                           CHF
@@ -323,8 +228,9 @@ const Cart = () => {
                   <div className="sc-fvEvSO ciMfSh  desktop handling_fee">
                     <div className="flex justify-between justify-content-center align-items-center">
                       <span className="flex justify-between items-center gap-2 p-2 rounded-lg w-full mt-4 text-green-950 font-semibold bg-green-100">
-                        CHF 21.00 hinzufügen und CHF 7.90 sparen!
+                        You just saved CHF 7.90
                         <svg
+                          onClick={() => setInfoModalOpen(true)}
                           stroke="currentColor"
                           fill="currentColor"
                           strokeWidth="0"
@@ -345,6 +251,14 @@ const Cart = () => {
           </div>
         </div>
       </div>
+      <InfoModal
+        isModalOpen={infoModalOpen === true}
+        onClose={() => setInfoModalOpen(false)}
+      />
+      <InfoModalSecond
+        isModalOpen={infoModalOpenSecond === true}
+        onClose={() => setInfoModalOpenSecond(false)}
+      />
     </div>
   );
 };

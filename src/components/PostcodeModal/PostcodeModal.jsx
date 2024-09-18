@@ -8,6 +8,7 @@ export default function PostcodeModal({ isModalOpen, onClose }) {
       afterClose={() => onClose && onClose()}
       onOk={() => {}}
       width={480}
+      footer={null} 
       style={{ margin: 'auto', padding: '20px' }}
     >
       <div className='w-[100%] flex flex-col justify-center items-center gap-5 text-center mt-5'>

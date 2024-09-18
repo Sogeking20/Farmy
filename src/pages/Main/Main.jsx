@@ -79,13 +79,13 @@ function Main() {
   return (
     <>
     {!user ?(
-        <div className="relative w-[100vw] h-[360px] bg-[#107433] text-white mb-[200px]">
+        <div className="relative w-[100vw] h-[360px] bg-[#107433] bg-no-repeat bg-fixed bg-[0_-150px] bg-[url('https://d23qaq2ahooeph.cloudfront.net/assets/dashboard1/farmy-header-bubbles-77194d6594dbf71e407354c9860f9eaa1fd6f5698a1b5dc43feca6e6bb945420.svg')] text-white mb-[200px]">
             <div className='flex flex-col h-[100%] items-center text-center'>
-            <div className='mb-[35px] '>
-                <h1 className='text-[48px] font-bold outline-black'>The online market that really has everything</h1>
+            <div className='mb-[35px] mt-[30px]'>
+                <h1 className='text-shadow text-[48px] font-bold outline-black'>The online market that really has everything</h1>
                 <p className='text-[35px]'>Your fresh food directly from producers</p>
             </div>
-            <a href="/fresh-food-delivered-to-your-door"><button className='text-[25px] py-[10px] px-[20px] bg-[#F4991A] rounded-md font-bold'>Convince yourself</button></a>
+            <a href="/fresh-food-delivered-to-your-door"><button className='text-shadow shadow-md text-[25px] py-[10px] px-[20px] bg-[#F4991A] rounded-sm font-bold'>Convince yourself</button></a>
             </div>
             <div className="absolute max-w-[1140px] w-[100%] left-[50%] bottom-[-100px] transform -translate-x-1/2 px-10">
             <div className='w-[100%] flex justify-between'>
@@ -168,12 +168,12 @@ function Main() {
             <></>
             )}
         </div>
-        <button className='w-[93px] h-[45px] text-[18px] font-bold bg-[#F4991A] rounded-sm text-white'>More</button>
+        <button className='shadow-text shadow-sm w-[93px] h-[45px] text-[18px] font-bold bg-[#F4991A] rounded-sm text-white'>More</button>
         <Divider />
         </div>
     </div>
     <div className="w-[100vw] px-5 text-black">
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-5 max-w-[940px] w-[100%] mx-auto p-[20px] bg-[rgb(223,206,242)] rounded-lg">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-5 max-w-[940px] w-[100%] mx-auto p-[20px] bg-no-repeat bg-cover bg-[url('https://www.farmy.ch/resources/farmy/images/banerDiscount.png')] rounded-lg">
         <div className="ml-0 text-center sm:text-start sm:ml-[15%] font-bold text-[20px]">
             <p>Discover a world of benefits with the Farmy Pass:</p>
             <p>Get your first 3 months for free.</p>
@@ -214,7 +214,7 @@ function Main() {
             <></>
             )}
         </div>
-        <a href="/farm-shop"><button className='w-[93px] h-[45px] text-[18px] font-bold bg-[#F4991A] rounded-sm text-white'>More</button></a>
+        <a href="/farm-shop"><button className='shadow-text shadow-sm w-[93px] h-[45px] text-[18px] font-bold bg-[#F4991A] rounded-sm text-white'>More</button></a>
         <Divider />
         </div>
     </div>
@@ -245,7 +245,7 @@ function Main() {
             <></>
             )}
         </div>
-        <a href="/farm-shop"><button className='w-[93px] h-[45px] text-[18px] font-bold bg-[#F4991A] rounded-sm text-white'>More</button></a>
+        <a href="/farm-shop"><button className='shadow-text shadow-sm w-[93px] h-[45px] text-[18px] font-bold bg-[#F4991A] rounded-sm text-white'>More</button></a>
         <Divider />
         </div>
     </div>
